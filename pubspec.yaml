@@ -16,6 +16,7 @@ dependencies:
   json_annotation: ^4.9.0
   retrofit: ^4.4.1
   drift: ^2.21.0
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
