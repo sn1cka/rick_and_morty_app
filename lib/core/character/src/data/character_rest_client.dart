@@ -1,22 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:rick_and_morty_app/feature/character/src/model/character.dart';
+import 'package:rick_and_morty_app/core/character/src/model/character.dart';
 
 part 'character_rest_client.freezed.dart';
 part 'character_rest_client.g.dart';
 
-@RestApi(baseUrl: "https://rickandmortyapi.com/api/")
+@RestApi(baseUrl: 'https://rickandmortyapi.com/api/')
 abstract class CharacterRestClient {
   factory CharacterRestClient(Dio dio, {String baseUrl}) = _CharacterRestClient;
 
-  /// Get the list of characters with pagination
-  @GET("character")
-  Future<CharacterResponseModel> getCharacters(@Query("page") int page);
+  @GET('character')
+  Future<CharacterResponseModel> getCharacters(@Query('page') int page);
 
-  /// Get character by ID
-  @GET("character/{id}")
-  Future<Character> getCharacterById(@Path("id") int id);
+  @GET('character/{id}')
+  Future<Character> getCharacterById(@Path('id') int id);
 }
 
 @freezed

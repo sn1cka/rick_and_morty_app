@@ -11,7 +11,7 @@ class Character with _$Character {
     required Status status,
     required String species,
     required String type,
-    required String gender,
+    required Gender gender,
     required Origin origin,
     required Location location,
     required String image,
@@ -28,6 +28,16 @@ enum Status {
   alive,
   @JsonValue('Dead')
   dead,
+  unknown,
+}
+
+enum Gender {
+  @JsonValue('Female')
+  female,
+  @JsonValue('Male')
+  male,
+  @JsonValue('Genderless')
+  genderless,
   unknown,
 }
 
