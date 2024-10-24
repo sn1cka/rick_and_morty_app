@@ -37,10 +37,14 @@ class FavoritesScreen extends StatelessWidget {
               return CustomScrollView(
                 slivers: [
                   SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     sliver: SliverGrid(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, mainAxisExtent: 200, mainAxisSpacing: 20, crossAxisSpacing: 20),
+                        crossAxisCount: 2,
+                        mainAxisExtent: 200,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                      ),
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           final character = store.favorites[index];

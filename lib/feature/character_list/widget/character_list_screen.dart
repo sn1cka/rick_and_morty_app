@@ -80,7 +80,7 @@ class DashboardScreen extends StatelessWidget {
                             childAspectRatio: 215 / 160,
                           ),
                           delegate: SliverChildBuilderDelegate(
-                                (context, index) {
+                            (context, index) {
                               final character = characterStore.characters[index];
 
                               return Observer(
@@ -106,10 +106,12 @@ class DashboardScreen extends StatelessWidget {
                     SliverOffstage(
                       offstage: !characterStore.isLoading,
                       sliver: const SliverToBoxAdapter(
-                        child: Center(child: Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: CircularProgressIndicator(),
-                        )),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
                       ),
                     ),
                     SliverOffstage(

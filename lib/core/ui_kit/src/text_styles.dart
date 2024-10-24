@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
+import 'package:rick_and_morty_app/core/ui_kit/src/colors.dart';
 
 abstract final class AppTextStyles {
   static const TextStyle subtitle = TextStyle(

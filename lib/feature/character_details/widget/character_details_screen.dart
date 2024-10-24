@@ -5,23 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:rick_and_morty_app/core/character/src/model/character.dart';
 import 'package:rick_and_morty_app/core/ui_kit/ui_kit.dart';
 import 'package:rick_and_morty_app/feature/character_state/character_state_store.dart';
-import 'package:rick_and_morty_app/feature/favorites_state/favorites_store.dart';
 
 class CharacterDetailsScreen extends StatelessWidget {
   const CharacterDetailsScreen({super.key});
-
-  void _onFavoriteTap(
-    BuildContext context, {
-    required Character character,
-    required bool value,
-  }) {
-    final store = Provider.of<FavoritesStore>(context, listen: false);
-    if (value) {
-      store.addToFavorites(character);
-    } else {
-      store.removeFromFavorites(character);
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Observer(
@@ -59,7 +45,7 @@ class CharacterDetailsScreen extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Column(
                                   children: [
-                                    SizedBox(height: 20),
+                                    const SizedBox(height: 20),
                                     _ListTile(icon: AppIcons.info, title: 'Name', text: character.name),
                                     _Status(status: character.status),
                                     _ListTile(icon: AppIcons.info, title: 'Species', text: character.species),
@@ -79,7 +65,7 @@ class CharacterDetailsScreen extends StatelessWidget {
                               radius: 22,
                               backgroundColor: Color(0xffF1F1F1),
                               child: Icon(
-                                AppIcons.back_arrow,
+                                AppIcons.backArrow,
                                 size: 24,
                               ),
                             ),
@@ -150,7 +136,7 @@ class _Status extends StatelessWidget {
     final icon = switch (status) {
       Status.alive => AppIcons.alive,
       Status.dead => AppIcons.dead,
-      Status.unknown => AppIcons.status_unknown,
+      Status.unknown => AppIcons.statusUnknown,
     };
 
     return _ListTile(icon: icon, title: 'Status', text: status.name);
@@ -167,7 +153,7 @@ class _Gender extends StatelessWidget {
     final icon = switch (gender) {
       Gender.male => AppIcons.male,
       Gender.female => AppIcons.female,
-      _ => AppIcons.unknown_1,
+      _ => AppIcons.unknown1,
     };
 
     return _ListTile(icon: icon, title: 'Gender', text: gender.name);
