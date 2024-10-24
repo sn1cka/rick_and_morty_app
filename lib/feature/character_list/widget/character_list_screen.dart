@@ -3,10 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty_app/core/character/src/model/character.dart';
 import 'package:rick_and_morty_app/core/character/src/widget/character_card.dart';
-import 'package:rick_and_morty_app/feature/character_store/character_store.dart';
-import 'package:rick_and_morty_app/feature/details_screen/details_screen.dart';
+import 'package:rick_and_morty_app/feature/character_details/widget/character_details_screen.dart';
+import 'package:rick_and_morty_app/feature/character_state/character_state_store.dart';
 import 'package:rick_and_morty_app/feature/favorites/widget/favorites_screen.dart';
-import 'package:rick_and_morty_app/feature/favorites_store/favorites_store.dart';
+import 'package:rick_and_morty_app/feature/favorites_state/favorites_store.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -15,7 +15,7 @@ class DashboardScreen extends StatelessWidget {
     Provider.of<CharacterStore>(context, listen: false).fetchCharacterDetails(character.id);
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => const DetailsScreen(),
+        builder: (context) => const CharacterDetailsScreen(),
       ),
     );
   }

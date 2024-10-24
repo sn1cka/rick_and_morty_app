@@ -13,26 +13,26 @@ abstract class _FavoritesStore with Store {
 
   final FavoritesRepository _favoritesRepository;
 
-  @observable
-  ObservableList<Character> favorites = ObservableList<Character>();
+  @readonly
+  ObservableList<Character> _favorites = ObservableList<Character>();
 
   @action
   void addToFavorites(Character character) {
-    if (!favorites.contains(character)) {
-      favorites.add(character);
+    if (!_favorites.contains(character)) {
+      _favorites.add(character);
     }
   }
 
   @action
   void removeFromFavorites(Character character) {
-    favorites.removeWhere((fav) => fav.id == character.id);
+    _favorites.removeWhere((fav) => fav.id == character.id);
   }
 
   @action
   Future<void> updateStorage() async {
     await transaction(
       () async {
-        await _favoritesRepository.rewriteFavoriteCharacters(favorites);
+        await _favoritesRepository.rewriteFavoriteCharacters(_favorites);
       },
     );
   }
@@ -41,12 +41,12 @@ abstract class _FavoritesStore with Store {
   Future<void> getFavorites() async {
     try {
       final favoriteCharacters = await _favoritesRepository.getFavoriteCharacters();
-      favorites.clear();
-      favorites.addAll(favoriteCharacters);
+      _favorites.clear();
+      _favorites.addAll(favoriteCharacters);
     } catch (e) {
       print('Failed to fetch favorite characters: $e');
     }
   }
 
-  bool isFavorite(int id) => favorites.any((element) => element.id == id);
+  bool isFavorite(int id) => _favorites.any((element) => element.id == id);
 }

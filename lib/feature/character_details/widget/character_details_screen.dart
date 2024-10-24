@@ -3,11 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty_app/core/character/src/model/character.dart';
 import 'package:rick_and_morty_app/core/character/src/widget/character_card.dart';
-import 'package:rick_and_morty_app/feature/character_store/character_store.dart';
-import 'package:rick_and_morty_app/feature/favorites_store/favorites_store.dart';
+import 'package:rick_and_morty_app/feature/character_state/character_state_store.dart';
+import 'package:rick_and_morty_app/feature/favorites_state/favorites_store.dart';
 
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
+class CharacterDetailsScreen extends StatelessWidget {
+  const CharacterDetailsScreen({super.key});
 
   void _onFavoriteTap(
     BuildContext context, {

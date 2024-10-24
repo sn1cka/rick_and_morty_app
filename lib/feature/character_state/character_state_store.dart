@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:rick_and_morty_app/core/character/character.dart';
 
-part 'character_store.g.dart';
+part 'character_state_store.g.dart';
 
 class CharacterStore = _CharacterStore with _$CharacterStore;
 
@@ -12,52 +12,52 @@ abstract class _CharacterStore with Store {
 
   final CharacterRepository _characterRepository;
 
-  @observable
-  ObservableList<Character> characters = ObservableList<Character>();
+  @readonly
+  ObservableList<Character> _characters = ObservableList<Character>();
 
-  @observable
-  Character? selectedCharacter;
+  @readonly
+  Character? _selectedCharacter;
 
-  @observable
-  bool isLoading = false;
+  @readonly
+  bool _isLoading = false;
 
-  @observable
-  bool isDetailsLoading = false;
+  @readonly
+  bool _isDetailsLoading = false;
 
-  @observable
-  int currentPage = 1;
+  @readonly
+  int _currentPage = 1;
 
-  @observable
-  bool isLastPageReached = false;
+  @readonly
+  bool _isLastPageReached = false;
 
   @action
   Future<void> fetchCharacters(int page) async {
-    if (isLastPageReached) {
+    if (_isLastPageReached) {
       return;
     }
-    isLoading = true;
+    _isLoading = true;
     try {
       final response = await _characterRepository.getPage(page);
-      currentPage = page;
-      isLastPageReached = response.isLastPage;
-      characters.addAll(response.items);
+      _currentPage = page;
+      _isLastPageReached = response.isLastPage;
+      _characters.addAll(response.items);
     } catch (e) {
       print('Failed to fetch characters: $e');
     } finally {
-      isLoading = false;
+      _isLoading = false;
     }
   }
 
   @action
   Future<void> fetchCharacterDetails(int id) async {
-    selectedCharacter = null;
-    isDetailsLoading = true;
+    _selectedCharacter = null;
+    _isDetailsLoading = true;
     try {
-      selectedCharacter = await _characterRepository.getCharacter(id);
+      _selectedCharacter = await _characterRepository.getCharacter(id);
     } catch (e) {
       print('Failed to fetch character details: $e');
     } finally {
-      isDetailsLoading = false;
+      _isDetailsLoading = false;
     }
   }
 }

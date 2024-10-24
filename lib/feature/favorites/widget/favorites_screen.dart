@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty_app/core/character/src/model/character.dart';
 import 'package:rick_and_morty_app/core/character/src/widget/character_card.dart';
-import 'package:rick_and_morty_app/feature/favorites_store/favorites_store.dart';
+import 'package:rick_and_morty_app/feature/favorites_state/favorites_store.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
