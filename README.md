@@ -1,5 +1,13 @@
 # Rick and Morty Application
 
+# This is BLOC version fo application 
+
+Navigate to [lib/feature/favorites_state/favorites_store.dart] to view bloc
+
+
+
+
+
 # Screen recording path: [app_output](app_output)
 # Release apk build : [app-release.apk](app_output%2Fapp-release.apk)
 
