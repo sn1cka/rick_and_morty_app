@@ -23,7 +23,7 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: NestedScrollView(
+        body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             const SliverAppBar(
               title: Text('Favorites'),
@@ -36,30 +36,31 @@ class FavoritesScreen extends StatelessWidget {
 
               return CustomScrollView(
                 slivers: [
-                  SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisExtent: 500,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final character = store.favorites[index];
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    sliver: SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, mainAxisExtent: 200, mainAxisSpacing: 20, crossAxisSpacing: 20),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final character = store.favorites[index];
 
-                        return Observer(
-                          builder: (context) {
-                            final favoriteStore = Provider.of<FavoritesStore>(context, listen: false);
-                            final isFavorite = favoriteStore.isFavorite(character.id);
-                            return CharacterCard(
-                              character: character,
-                              isFavorite: isFavorite,
-                              onFavoriteTap: (bool value) {
-                                _onFavoriteTap(context, value: value, character: character);
-                              },
-                            );
-                          },
-                        );
-                      },
-                      childCount: store.favorites.length,
+                          return Observer(
+                            builder: (context) {
+                              final favoriteStore = Provider.of<FavoritesStore>(context, listen: false);
+                              final isFavorite = favoriteStore.isFavorite(character.id);
+                              return CharacterCard(
+                                character: character,
+                                isFavorite: isFavorite,
+                                onFavoriteTap: (bool value) {
+                                  _onFavoriteTap(context, value: value, character: character);
+                                },
+                              );
+                            },
+                          );
+                        },
+                        childCount: store.favorites.length,
+                      ),
                     ),
                   ),
                 ],
@@ -67,5 +68,5 @@ class FavoritesScreen extends StatelessWidget {
             },
           ),
         ),
-  );
+      );
 }
