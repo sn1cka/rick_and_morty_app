@@ -9,7 +9,6 @@ import 'package:rick_and_morty_app/feature/favorites/data/favorites_datasource.d
 import 'package:rick_and_morty_app/feature/favorites/data/favorites_repository.dart';
 import 'package:rick_and_morty_app/feature/favorites_state/favorites_store.dart';
 
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -19,7 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late final CharacterStore characterStore;
-  late final FavoritesStore favoritesStore;
+  late final FavoritesBloc favoritesBloc;
 
   CharacterStore _createCharacterStore() {
     final charRepo = CharacterRepositoryImpl(
@@ -32,20 +31,20 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return CharacterStore(characterRepository: charRepo)..fetchCharacters(1);
   }
 
-  FavoritesStore _createFavoritesStore() {
+  FavoritesBloc _createFavoritesStore() {
     final favoritesRepo = FavoritesRepositoryImpl(
       datasource: FavoritesLocalDataSource(
         db: AppDatabase.defaults(),
       ),
     );
 
-    return FavoritesStore(favoritesRepository: favoritesRepo)..getFavorites();
+    return FavoritesBloc(favoritesRepository: favoritesRepo)..add(const FavoritesEvent.getFavorites());
   }
 
   @override
   void initState() {
     super.initState();
-    favoritesStore = _createFavoritesStore();
+    favoritesBloc = _createFavoritesStore();
     characterStore = _createCharacterStore();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -58,24 +57,24 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) => MultiProvider(
-    providers: [
-      Provider.value(value: characterStore),
-      Provider.value(value: favoritesStore),
-    ],
-    child: MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const DashboardScreen(),
-    ),
-  );
+        providers: [
+          Provider.value(value: characterStore),
+          Provider.value(value: favoritesBloc),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: const DashboardScreen(),
+        ),
+      );
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
-      favoritesStore.updateStorage();
+      favoritesBloc.add(const FavoritesEvent.updateStorage());
     }
     super.didChangeAppLifecycleState(state);
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/core/character/src/model/character.dart';
 import 'package:rick_and_morty_app/core/character/src/widget/character_card.dart';
 import 'package:rick_and_morty_app/feature/favorites_state/favorites_store.dart';
@@ -13,59 +12,49 @@ class FavoritesScreen extends StatelessWidget {
     required Character character,
     required bool value,
   }) {
-    final store = Provider.of<FavoritesStore>(context, listen: false);
+    final bloc = BlocProvider.of<FavoritesBloc>(context);
     if (value) {
-      store.addToFavorites(character);
+      bloc.add(FavoritesEvent.addToFavorites(character));
     } else {
-      store.removeFromFavorites(character);
+      bloc.add(FavoritesEvent.removeFromFavorites(character));
     }
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: NestedScrollView(
+        body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             const SliverAppBar(
               title: Text('Favorites'),
               pinned: true,
             ),
           ],
-          body: Observer(
-            builder: (context) {
-              final store = Provider.of<FavoritesStore>(context, listen: false);
-
-              return CustomScrollView(
-                slivers: [
-                  SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisExtent: 500,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final character = store.favorites[index];
-
-                        return Observer(
-                          builder: (context) {
-                            final favoriteStore = Provider.of<FavoritesStore>(context, listen: false);
-                            final isFavorite = favoriteStore.isFavorite(character.id);
-                            return CharacterCard(
-                              character: character,
-                              isFavorite: isFavorite,
-                              onFavoriteTap: (bool value) {
-                                _onFavoriteTap(context, value: value, character: character);
-                              },
-                            );
-                          },
-                        );
-                      },
-                      childCount: store.favorites.length,
-                    ),
+          body: BlocBuilder<FavoritesBloc, FavoritesState>(
+            builder: (context, state) => CustomScrollView(
+              slivers: [
+                SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisExtent: 500,
                   ),
-                ],
-              );
-            },
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final character = state.favorites[index];
+
+                      return CharacterCard(
+                        character: character,
+                        isFavorite: state.isFavorite(character.id),
+                        onFavoriteTap: (bool value) {
+                          _onFavoriteTap(context, value: value, character: character);
+                        },
+                      );
+                    },
+                    childCount: state.favorites.length,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-  );
+      );
 }

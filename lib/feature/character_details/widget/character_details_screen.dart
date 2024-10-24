@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty_app/core/character/src/model/character.dart';
@@ -14,11 +15,11 @@ class CharacterDetailsScreen extends StatelessWidget {
     required Character character,
     required bool value,
   }) {
-    final store = Provider.of<FavoritesStore>(context, listen: false);
+    final bloc = BlocProvider.of<FavoritesBloc>(context);
     if (value) {
-      store.addToFavorites(character);
+      bloc.add(FavoritesEvent.addToFavorites(character));
     } else {
-      store.removeFromFavorites(character);
+      bloc.add(FavoritesEvent.removeFromFavorites(character));
     }
   }
 
@@ -26,7 +27,6 @@ class CharacterDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) => Observer(
         builder: (context) {
           final characterStore = Provider.of<CharacterStore>(context, listen: false);
-          final favoritesStore = Provider.of<FavoritesStore>(context, listen: false);
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -39,12 +39,14 @@ class CharacterDetailsScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 if (characterStore.selectedCharacter != null)
-                  CharacterCard(
-                    character: characterStore.selectedCharacter!,
-                    isFavorite: favoritesStore.isFavorite(characterStore.selectedCharacter!.id),
-                    onFavoriteTap: (bool value) {
-                      _onFavoriteTap(context, character: characterStore.selectedCharacter!, value: value);
-                    },
+                  BlocBuilder<FavoritesBloc, FavoritesState>(
+                    builder: (context, state) => CharacterCard(
+                      character: characterStore.selectedCharacter!,
+                      isFavorite: state.isFavorite(characterStore.selectedCharacter!.id),
+                      onFavoriteTap: (bool value) {
+                        _onFavoriteTap(context, character: characterStore.selectedCharacter!, value: value);
+                      },
+                    ),
                   ),
               ],
             ),
