@@ -23,6 +23,7 @@ dependencies:
   provider: ^6.1.2
   flutter_mobx: ^2.2.1+1
   flutter_bloc: ^8.1.6
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -40,3 +41,8 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  fonts:
+    - family:  AppIcons
+      fonts:
+        - asset: assets/AppIcons.ttf

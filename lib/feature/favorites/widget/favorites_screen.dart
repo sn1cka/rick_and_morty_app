@@ -32,24 +32,29 @@ class FavoritesScreen extends StatelessWidget {
           body: BlocBuilder<FavoritesBloc, FavoritesState>(
             builder: (context, state) => CustomScrollView(
               slivers: [
-                SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisExtent: 500,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final character = state.favorites[index];
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisExtent: 200,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final character = state.favorites[index];
 
-                      return CharacterCard(
-                        character: character,
-                        isFavorite: state.isFavorite(character.id),
-                        onFavoriteTap: (bool value) {
-                          _onFavoriteTap(context, value: value, character: character);
-                        },
-                      );
-                    },
-                    childCount: state.favorites.length,
+                        return CharacterCard(
+                          character: character,
+                          isFavorite: state.isFavorite(character.id),
+                          onFavoriteTap: (bool value) {
+                            _onFavoriteTap(context, value: value, character: character);
+                          },
+                        );
+                      },
+                      childCount: state.favorites.length,
+                    ),
                   ),
                 ),
               ],

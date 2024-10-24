@@ -18,13 +18,13 @@ class FavoritesEvent with _$FavoritesEvent {
 
 @freezed
 class FavoritesState with _$FavoritesState {
-  const FavoritesState._();
-
   const factory FavoritesState({
     required List<Character> favorites,
     required bool isLoading,
     Object? error,
   }) = _Idle;
+  const FavoritesState._();
+
 
   bool get hasError => error != null;
 

@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty_app/core/character/character.dart';
+import 'package:rick_and_morty_app/core/ui_kit/src/colors.dart';
 import 'package:rick_and_morty_app/feature/character_list/widget/character_list_screen.dart';
 import 'package:rick_and_morty_app/feature/character_state/character_state_store.dart';
 import 'package:rick_and_morty_app/feature/favorites/data/database/favorites_database.dart';
@@ -63,8 +65,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          color: AppColors.white,theme: ThemeData(
+            progressIndicatorTheme: const ProgressIndicatorThemeData(
+              color: AppColors.irisBlue,
+            ),
+            appBarTheme: const AppBarTheme(iconTheme: IconThemeData(fill: 1, color: AppColors.nero)),
+            scaffoldBackgroundColor: AppColors.whiteSmoke,
+            textTheme: GoogleFonts.latoTextTheme(),
             useMaterial3: true,
           ),
           home: const DashboardScreen(),
